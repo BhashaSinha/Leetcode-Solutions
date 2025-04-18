@@ -1,0 +1,64 @@
+class Solution {
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+       PriorityQueue<int[]>pq=new PriorityQueue<>((a,b)->b[0]-a[0]);
+int m=nums1.length;
+int n=nums2.length;
+
+for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int sum=nums1[i]+nums2[j];
+
+                if(pq.size()< k){
+               pq.offer(new int[]{sum,i,j}) ;    
+                } else if(pq.peek()[0]>sum){
+                    pq.poll();
+                    pq.offer(new int[]{sum,i,j});
+                } else{
+                    break;
+                }
+    }
+}
+List<List<Integer>>result=new ArrayList<>();
+while(!pq.isEmpty()){
+    int[] temp=pq.poll();
+    int i=temp[1];
+    int j=temp[2];
+    result.add(Arrays.asList(nums1[i],nums2[j]));
+}
+return result;
+    }
+}
+******** How to think its a heap question? *************
+
+we need K no. of minimum sums. (we need to find repeatedly minimum sums till k which is a repeatative task .In such tasks where repeation of min and max occur we use heap)
+
+How to understand which heap (min or max)?
+
+we need minimum sums ,hence somewhere we dont require max sums after k sums so its important to ignore or remove max [sums.to](http://sums.to) remove max sums we need to add them to top so that at the end we have atmost k min sums left in the heap.So,use MAX heap. 
+
+How man MAX HEAPS TO USE?
+
+always try to use less storage whihc means think of one max heap atfirst ,also there is a restriction to have only k min sums .so think of this max heap as a containner whihc doesnt want to contain more than k .so it will not except more than k size.
+
+Logic :
+
+3 things and we are done :
+
+1. we have to see all combinations for sure and the arrays are in ascending(low to high) , for eeing all combinations ,we can simply use our traditional nested for loop concept. 
+2. now we have a heap declared pq. lets start the loop. the heaps says you can keep the sum as this is less than k(if k=2 , we can run 2 times 0,1 as we have 0 indexed array). 
+3. next what if sum < pq.peek() ,then pop —> add sum to pq.
+4. what if sum>pq.peek() next all sums will be bigger as its ascending. so break  we need to increment i .
+
+This is teh main logic.
+
+now comes how to return the array. As this is a list of lists we must use an ArrayList with then name result,
+
+we will run the pq loop till empty 
+
+take a temp array to store first sum as it contains sum as well as indexes[sum,i,j]
+
+in such cases we need a track of indexes to find those numbers to return at the end and sums to easily compare.
+
+we need just the indexes as we already know that these are min sums. we store these indexes in i and j .
+
+and then add these numbers to the list and finally return the list.
