@@ -1,0 +1,78 @@
+*************************************************************** Generate Parentheses *****************************************************************************
+
+class Solution {
+    public List<String> generateParenthesis(int n) {
+      List<String> res=new ArrayList<>();
+      backtrack(res,"",0,0,n);
+      return res;
+
+    }
+
+    private void backtrack(List<String> res,String current,int open,int close,int n){
+        if(current.length()==2*n){
+            res.add(current);
+            return;
+        }
+        if(open<n)
+            backtrack(res,current+"(",open+1,close,n);
+        
+        if(close<open)
+            backtrack(res,current+")",open,close+1,n);
+        
+}
+}
+//
+🧸 Now, the Deep Time and Space Complexity:
+🕰 Time Complexity:
+Step 1: How many possible combinations?
+Think:
+Every position (character) in the string, you have 2 choices:
+
+Add '('
+
+Add ')'
+
+But not all choices are valid (because we only add ')' if close < open), so it's not exactly 2^(2n).
+
+👉 Actually, the number of valid parentheses combinations for n pairs is a special number called the Catalan Number.
+
+Catalan Number (Cₙ) ≈ (4ⁿ) / (n^(3/2))
+
+It grows much slower than 2^(2n), but still exponentially.
+
+Roughly, it behaves like O(4ⁿ / √n).
+
+So:
+
+✅ Time Complexity = O(4ⁿ / √n)
+
+🧠 Space Complexity:
+You need space for:
+
+The recursion call stack (because of backtracking)
+
+The result list storing all the valid combinations
+
+Step 2: How much space does it use?
+Recursion stack:
+
+Each recursive call can go up to 2n depth (string length = 2n).
+
+So the maximum stack depth is O(2n) = O(n).
+
+Result list:
+
+You will have about Catalan number of strings in res.
+
+Each string is length 2n.
+
+Thus:
+
+✅ Space used = number of strings × length of each string
+= O((4ⁿ / √n) × 2n)
+
+Simplified:
+✅ Space Complexity ≈ O(4ⁿ / √n × n)
+
+(meaning still exponential, but multiplied by n.)
+//
