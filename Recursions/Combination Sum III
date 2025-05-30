@@ -1,0 +1,80 @@
+class Solution {
+    List<List<Integer>>result=new ArrayList<>();
+
+    public void solve(int i,int sum,List<Integer>Subset,int n,int k){
+        if(sum==n && Subset.size()==k){
+            result.add(new ArrayList<>(Subset));
+            return;
+        }
+        if(sum>n || Subset.size()>k || i>=10) return;
+
+        sum+=i;
+        Subset.add(i);
+        solve(i+1,sum,Subset,n,k);
+
+        sum-=i;  
+        Subset.remove(Subset.size()-1);
+        solve(i+1,sum,Subset,n,k);
+   }
+    public List<List<Integer>> combinationSum3(int k, int n) {
+
+        solve(1,0,new ArrayList<>(),n,k);
+        return new ArrayList<>(result);
+     }
+}
+
+*************************************************************************TIME AND SPACE COMPLEXITY *************************************************
+🧠 Time Complexity:
+Let’s understand how many combinations the code might try.
+
+🔢 1. Numbers used: 1 to 9
+You are only using numbers from 1 to 9, so at most, you're deciding for each number:
+
+Should I include this number?
+
+Should I skip this number?
+
+That gives us two choices for each number.
+
+So in the worst case, you're doing something like:
+
+bash
+Copy
+Edit
+2 choices for 1 → include/skip  
+2 choices for 2 → include/skip  
+...  
+2 choices for 9 → include/skip
+That's:
+2 × 2 × 2 × ... (9 times) = 2^9 = 512 combinations
+
+But! We don’t go through all 512 because:
+
+We stop early if the sum becomes too big
+
+We stop if the size of the subset becomes more than k
+
+✅ So, the worst-case time complexity is:
+mathematica
+Copy
+Edit
+O(2^9) = O(512)
+Which is very small and acceptable for real-time use. So the code runs fast.
+
+🧠 Space Complexity:
+Space is about how much memory your code uses.
+
+1. Call Stack (due to recursion):
+You go as deep as 9 levels (one for each number 1 to 9)
+
+So max depth of recursion is 9 → O(9) = O(1) (because it's constant)
+
+2. Storing combinations:
+You might store several valid combinations in the result list.
+
+Each combination can have up to k numbers.
+
+Suppose there are C such combinations.
+
+So memory for storing results is:
+O(C × k) — where C is the number of valid combinations you found.
