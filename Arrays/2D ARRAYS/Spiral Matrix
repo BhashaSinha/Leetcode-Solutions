@@ -1,0 +1,57 @@
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> result = new ArrayList<>();
+
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        int top = 0;
+        int down = m - 1;     // Down is the last row index (m-1)
+        int left = 0;
+        int right = n - 1;    // Right is the last column index (n-1)
+
+        int id = 0;
+
+        while (left <= right && top <= down) {
+            if (id == 0) {
+                // Traversing left to right across the top row
+                for (int i = left; i <= right; i++) {
+                    result.add(matrix[top][i]);
+                    // 👉 top is constant here (row index), so we change column i
+                }
+                top++;  // ✅ Move boundary down because top row is done
+            }
+
+            if (id == 1) {
+                // Traversing top to down along the rightmost column
+                for (int i = top; i <= down; i++) {
+                    result.add(matrix[i][right]);
+                    // 👉 right is constant (column index), so we change row i
+                }
+                right--; // ✅ Move boundary left because rightmost column is done
+            }
+
+            if (id == 2) {
+                // Traversing right to left on the bottom row
+                for (int i = right; i >= left; i--) {
+                    result.add(matrix[down][i]);
+                    // 👉 down is constant (row index), so we change column i
+                }
+                down--; // ✅ Move boundary up because bottom row is done
+            }
+
+            if (id == 3) {
+                // Traversing down to top on the leftmost column
+                for (int i = down; i >= top; i--) {
+                    result.add(matrix[i][left]);
+                    // 👉 left is constant (column index), so we change row i
+                }
+                left++; // ✅ Move boundary right because leftmost column is done
+            }
+
+            id = (id + 1) % 4; // ✅ Cycle through 0 → 1 → 2 → 3 → 0 ...
+        }
+
+        return result;
+    }
+}
