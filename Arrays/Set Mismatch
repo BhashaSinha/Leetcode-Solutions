@@ -1,0 +1,27 @@
+class Solution {
+
+    //obj:first> find duplicate second> find missing 
+    //for duplicate can use HashMap .(need to know how) --> loop inside the array** each element traverse.
+
+    public int[] findErrorNums(int[] nums) {
+       Map<Integer,Integer> map=new HashMap<>();            
+       int n=nums.length;
+       int duplicate=-1;
+       int missing=-1;
+       for(int num:nums){
+        map.put(num,map.getOrDefault(num,0)+1);            
+       }
+
+       for(int i=1;i<=n;i++){     //check from 1 till n if the occurance is 0 is 2 then duplicate and 0 then missing
+        int count=map.getOrDefault(i,0);
+        if(count>1) {duplicate= i;
+       }
+       else if(count==0) {
+        missing=i;
+       }
+       }
+       
+       return new int[] {duplicate,missing};   //returnn in the form of array 
+       
+    }
+}
