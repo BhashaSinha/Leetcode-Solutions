@@ -1,0 +1,46 @@
+
+
+class Solution {
+    public void nextPermutation(int[] nums) {
+        int n = nums.length;
+        int index = -1;
+
+        // Step 1: Find the break point
+        for (int i = n - 2; i >= 0; i--) {
+            if (nums[i] < nums[i + 1]) {
+                index = i;
+                break;
+            }
+        }
+
+        // Step 2: If a break point is found, find the next greater element and swap
+        if (index != -1) {
+            for (int i = n - 1; i > index; i--) {
+                if (nums[i] > nums[index]) {
+                    int temp = nums[i];
+                    nums[i] = nums[index];
+                    nums[index] = temp;
+                    break;
+                }
+            }
+        }
+
+        // Step 3: Reverse the subarray from index + 1 to the end of the array
+        int start = index + 1;
+        int end = n - 1;
+        while (start < end) {
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start++;
+            end--;
+        }
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        int nums[] = {2, 1, 5, 4, 3};
+        sol.nextPermutation(nums);
+        System.out.println(Arrays.toString(nums)); // To print the result
+    }
+}
