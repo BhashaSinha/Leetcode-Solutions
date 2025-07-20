@@ -1,0 +1,28 @@
+class Solution {
+    public int evalRPN(String[] tokens) {
+    Stack<Integer>stack=new Stack();
+     for(String token:tokens){
+        if (!token.equals("+") && !token.equals("-") && 
+                !token.equals("*") && !token.equals("/")){
+                stack.push((Integer.parseInt(token)));
+        }
+        else{
+            int curr2=stack.pop();
+            int curr1=stack.pop();
+            int result=applyOperator(curr1,curr2,token);
+            stack.push(result);
+        }
+     }
+      return stack.pop();   
+    }
+    public int applyOperator(int curr1,int curr2, String op){
+        switch(op){
+            case "+":return curr1+curr2;
+            case "-": return curr1-curr2;
+             case "*": return curr1*curr2;
+              case "/": return curr1/curr2;
+              default:throw new IllegalArgumentException("Unknown operator: " + op);
+        }
+    }
+}
+
