@@ -1,0 +1,36 @@
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        // Dummy node to start the merged list
+        ListNode dummy = new ListNode(-1);
+        ListNode tail = dummy;
+
+        // While both lists have elements
+        while (list1 != null && list2 != null) {
+            if (list1.val <= list2.val) {
+                tail.next = new ListNode(list1.val);
+                list1 = list1.next;
+            } else {
+                tail.next = new ListNode(list2.val);
+                list2 = list2.next;
+            }
+            tail = tail.next;
+        }
+
+        // If elements are left in list1
+        while (list1 != null) {
+            tail.next = new ListNode(list1.val);
+            list1 = list1.next;
+            tail = tail.next;
+        }
+
+        // If elements are left in list2
+        while (list2 != null) {
+            tail.next = new ListNode(list2.val);
+            list2 = list2.next;
+            tail = tail.next;
+        }
+
+        // Return the merged list, skipping the dummy node
+        return dummy.next;
+    }
+}
