@@ -1,0 +1,25 @@
+import java.util.HashSet;
+
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        HashSet<ListNode> seen = new HashSet<>();
+
+        // Step 1: Store all nodes of list A in the set
+        ListNode temp = headA;
+        while (temp != null) {
+            seen.add(temp);
+            temp = temp.next;
+        }
+
+        // Step 2: Traverse list B and check if any node is already in the set
+        temp = headB;
+        while (temp != null) {
+            if (seen.contains(temp)) {
+                return temp; // Found the intersection node
+            }
+            temp = temp.next;
+        }
+
+        return temp; // No intersection
+    }
+}
